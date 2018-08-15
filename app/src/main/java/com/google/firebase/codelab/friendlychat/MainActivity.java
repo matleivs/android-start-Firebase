@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
                 viewHolder.messengerTextView.setText(messageModel.getName());
-                if(messageModel.getPhotoUrl() == null){
+                if (messageModel.getPhotoUrl() == null) {
                     viewHolder.messageImageView.setImageDrawable(ContextCompat.getDrawable(
                             MainActivity.this, R.drawable.ic_account_circle_black_36dp));
                 } else {
@@ -232,9 +232,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 int lastVisiblePos = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
                 // If the recycler view is initially being loaded or the user is at the top of the list,
                 // scroll to the bottom of the list to show the newly added message.
-                if(lastVisiblePos == -1 ||
+                if (lastVisiblePos == -1 ||
                         (positionStart >= (messageCount - 1)
-                        && lastVisiblePos == (positionStart - 1))) {
+                                && lastVisiblePos == (positionStart - 1))) {
                     mMessageRecyclerView.scrollToPosition(positionStart);
                 }
             }
@@ -271,6 +271,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View view) {
                 // Send messages on click.
+                FriendlyMessage aMessage = new FriendlyMessage(
+                        mMessageEditText.getText().toString(),
+                        mUsername,
+                        mPhotoUrl,
+                        null /* no image */);
+                mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                        .push() // adds an auto-generated, sequential ID to the pushed object's path
+                        // sequential => new messages will be added to end of the list
+                        .setValue(aMessage);
+                mMessageEditText.setText("");
             }
         });
 
