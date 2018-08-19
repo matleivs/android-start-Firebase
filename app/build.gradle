@@ -46,6 +46,7 @@ dependencies {
     // Firebase
     implementation 'com.google.firebase:firebase-analytics:15.0.2'
     implementation 'com.google.firebase:firebase-auth:15.1.0'
+    // firebase-appindexing dep.: write messages to the on-device index and log user actions
     implementation 'com.google.firebase:firebase-appindexing:15.0.1'
     implementation 'com.google.firebase:firebase-config:15.0.2'
     implementation 'com.google.firebase:firebase-messaging:15.0.2'
