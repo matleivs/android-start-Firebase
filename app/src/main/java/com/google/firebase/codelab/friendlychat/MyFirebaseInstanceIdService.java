@@ -21,15 +21,39 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MyFirebaseInstanceIdService {
+/**
+ * Service used to handle FCM logic.
+ * Is used to alert the App when a new InstanceID token is generated
+ * and to retrieve that generated token.
+ *
+ * We override the onTokenRefresh method in order to subscribe to a Topic.
+ */
+public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
-    private static final String TAG = "MyFirebaseIIDService";
-    private static final String FRIENDLY_ENGAGE_TOPIC = "friendly_engage";
+  private static final String TAG = "MyFirebaseIIDService";
+  private static final String FRIENDLY_ENGAGE_TOPIC = "friendly_engage";
 
     /**
-     * The Application's current Instance ID token is no longer valid and thus a new one must be requested.
+     * Use case: The Application's current Instance ID token is no longer valid
+     * and thus a new one must be requested.
+     *
+     * The registration token may change when:
+
+     The app deletes Instance ID
+     The app is restored on a new device
+     The user uninstalls/reinstall the app
+     The user clears app data.
      */
-    public void onTokenRefresh() {
+    @Override
+    public void onTokenRefresh(){
+        // When you need to handle the generation of a token, initially or after a Refresh,
+        // this is where you should do that.
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "FCM Token: " + token);
+
+        // Once a token is generated, we subscribe-to-Topic to the topic defined above
+        FirebaseMessaging.getInstance().subscribeToTopic(FRIENDLY_ENGAGE_TOPIC);
     }
+
 
 }
