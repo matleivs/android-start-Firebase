@@ -53,6 +53,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseAppIndex;
+import com.google.firebase.appindexing.FirebaseUserActions;
 import com.google.firebase.appindexing.Indexable;
 import com.google.firebase.appindexing.builders.Indexables;
 import com.google.firebase.appindexing.builders.PersonBuilder;
@@ -189,6 +190,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     // write this message to the on-device index
                     // to be included in search results with the Google App
                     FirebaseAppIndex.getInstance().update(getMessageIndexable(messageModel));
+
+                    // log a View-Action on the message
+                    FirebaseUserActions.getInstance().end(getMessageViewAction(messageModel));
 
                     viewHolder.messageTextView.setText(messageModel.getText());
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
