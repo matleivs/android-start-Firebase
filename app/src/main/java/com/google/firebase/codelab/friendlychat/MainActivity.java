@@ -51,6 +51,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseAppIndex;
 import com.google.firebase.appindexing.Indexable;
 import com.google.firebase.appindexing.builders.Indexables;
@@ -433,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      * @param friendlyMessage
      * @return
      */
-    private Indexable getMessageIndexable(FriendlyMessage friendlyMessage){
+    private Indexable getMessageIndexable(FriendlyMessage friendlyMessage) {
         PersonBuilder sender = Indexables.personBuilder()
                 .setIsSelf(mUsername.equals(friendlyMessage.getName()))
                 .setName(friendlyMessage.getName())
@@ -451,5 +452,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .build();
 
         return messageToIndex;
+    }
+
+    /**
+     * For logging user actions on Personal content, e.g. viewing messages, the upload attribute should be
+     * set to false in the Metadata object of the Action. This ensures user action activity on Personal content
+     * remains only on the device, and will Not be uploaded to Google servers.
+     *
+     * @param friendlyMessage
+     * @return
+     */
+    private Action getMessageViewAction(FriendlyMessage friendlyMessage) {
+        return new Action.Builder(Action.Builder.VIEW_ACTION)
+                .setObject(friendlyMessage.getName(), MESSAGE_URL.concat(friendlyMessage.getId()))
+                .setMetadata(new Action.Metadata.Builder().setUpload(false))
+                .build();
     }
 }
