@@ -49,6 +49,7 @@ dependencies {
     // firebase-appindexing dep.: write messages to the on-device index and log user actions
     implementation 'com.google.firebase:firebase-appindexing:15.0.1'
     implementation 'com.google.firebase:firebase-config:15.0.2'
+    // firebase-messaging dep.: provides the ability to send and receive FCM messages
     implementation 'com.google.firebase:firebase-messaging:15.0.2'
 
     // Firebase Realtime Database and Firebase Storage dependencies
