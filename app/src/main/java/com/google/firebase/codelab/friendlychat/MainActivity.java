@@ -51,6 +51,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.appindexing.FirebaseAppIndex;
 import com.google.firebase.appindexing.Indexable;
 import com.google.firebase.appindexing.builders.Indexables;
 import com.google.firebase.appindexing.builders.PersonBuilder;
@@ -184,6 +185,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                             FriendlyMessage messageModel) {
                 mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 if (messageModel.getText() != null) {
+                    // write this message to the on-device index
+                    // to be included in search results with the Google App
+                    FirebaseAppIndex.getInstance().update(getMessageIndexable(messageModel));
+
                     viewHolder.messageTextView.setText(messageModel.getText());
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
                     viewHolder.messageImageView.setVisibility(ImageView.GONE);
